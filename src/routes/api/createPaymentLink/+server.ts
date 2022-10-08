@@ -1,7 +1,7 @@
 import type {RequestEvent} from '@sveltejs/kit'
 import {generateAccount, generateWalletFromCurrency} from "./components/tatum";
 import {checkIfWeSupportCurrency} from "./components/utils";
-import {getCurrencyDetails} from "../../../lib/mongo/db";
+import {addCurrencyDetails, getCurrencyDetails} from "../../../lib/mongo/db";
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET(request: RequestEvent) {
@@ -37,26 +37,115 @@ export async function GET(request: RequestEvent) {
         })
     }
 
-    const result = await getCurrencyDetails(currency)
-    console.log(result)
-    if(!result){
-        const wallet = await generateWalletFromCurrency(currency as keyof typeof String, true)
-        console.log(wallet)
+    try {
 
-        const account = await generateAccount(currency,wallet.xpub)
-    }
+        let result = await getCurrencyDetails(currency)
+        if(!result){
+            try {
+                const generatedWallet = await generateWalletFromCurrency(currency as keyof typeof String, true)
 
-    return new Response(
-        JSON.stringify(
-            wallet
-        ),
-        {
-            status: 201,
-            headers: {
-                "Content-Type": "application/json"
+                if ("xpub" in generatedWallet && "mnemonic" in generatedWallet) {
+                    // @ts-ignore
+                    let xpub: string = generatedWallet.xpub
+                    // @ts-ignore
+                    let mnemonic: string = generatedWallet.mnemonic
+
+                    try {
+                        const account = await generateAccount(currency, xpub)
+                        result = {
+                            accountId: account.id,
+                            mnemonic: mnemonic,
+                            xpub: xpub,
+                            currency: currency
+                        }
+
+                        const response = await addCurrencyDetails(result)
+                        if(!response) {
+                            return new Response(
+                                JSON.stringify({
+                                    success: false,
+                                    error: true,
+                                    msg: "ACCOUNT_CREATION_FAILED"
+                                }), {
+                                    status: 500,
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    }
+                                }
+                            )
+                        }
+                    } catch(err){
+                        console.error(err)
+                        return new Response(
+                            JSON.stringify({
+                                success: false,
+                                error: true,
+                                msg: "ACCOUNT_GENERATE_FAILED"
+                            }), {
+                                status: 500,
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            }
+                        )
+                    }
+                } else {
+                    return new Response(
+                        JSON.stringify({
+                            success: false,
+                            error: true,
+                            msg: "ACCOUNT_GENERATE_FAILED"
+                        }), {
+                            status: 500,
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
+                        }
+                    )
+                }
+            } catch(err){
+                console.error(err)
+                return new Response(
+                    JSON.stringify({
+                        success: false,
+                        error: true,
+                        msg: "WALLET_GENERATION_FAILED"
+                    }), {
+                        status: 500,
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                )
             }
         }
-    )
 
+        return new Response(
+            JSON.stringify(
+                result
+            ),
+            {
+                status: 201,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        )
+
+    } catch(err){
+        console.error(err)
+        return new Response(
+            JSON.stringify({
+                success: false,
+                error: true,
+                msg: "UNABLE_TO_GET_DETAILS"
+            }), {
+                status: 500,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        )
+    }
 
 }

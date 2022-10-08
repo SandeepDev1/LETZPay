@@ -15,3 +15,14 @@ export const getCurrencyDetails: (currency: string) => Promise<Wallet | boolean>
         return false
     }
 }
+
+export const addCurrencyDetails = async (data: Wallet) => {
+    try {
+        const collection = db.collection("currencyList")
+        await collection.insertOne(data)
+        return true
+    } catch(err){
+        console.error(err)
+        return false
+    }
+}
