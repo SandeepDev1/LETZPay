@@ -11,3 +11,16 @@ export const currencies = {
     TRON: "TRON",
     XDC: "XDC"
 }
+
+export const localCurrency = {
+    USD: "USD",
+    INR: "INR",
+    EUR: "EUR"
+}
+
+export const STATUS = {
+    CREATED: "CREATED",
+    PENDING: "PENDING",
+    COMPLETED: "COMPLETED",
+    FAILED: "FAILED"
+}
