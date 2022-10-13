@@ -22,11 +22,16 @@ export interface Wallet {
 export interface PaymentSchema {
     chargeId: string
     status: string
-    createdAt: Date
+    createdAt: number
     address: string
+    merchantAddress: string
     localAmount: string
     localCurrency: string
     amount: string
     currency: string
     webhookUrl: string
+    fees?: string
+    gasLimit?: string
+    gasPrice?: string
+    totalAmount?: string
 }

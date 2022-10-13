@@ -5,7 +5,8 @@ import {
     generateWalletFromCurrency
 } from "./components/tatum";
 import {addCurrencyDetails, getCurrencyDetails} from "../../../lib/mongo/db";
-import {verifyCreatePaymentRequest} from "./utils";
+import {createCharge, localCurrencyToCrypto, verifyCreatePaymentRequest} from "./utils";
+import {calculateFees} from "./components/fees";
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST(request: RequestEvent) {
@@ -44,9 +45,7 @@ export async function POST(request: RequestEvent) {
 
                         } catch(err){
                             console.error(err)
-                            return new Response(JSON.stringify({success: false, error: true, msg: "ACCOUNT_GENERATE_FAILED"}), {status: 500, headers: {
-                                        "Content-Type": "application/json"
-                                    }})
+                            return new Response(JSON.stringify({success: false, error: true, msg: "ACCOUNT_GENERATE_FAILED"}), {status: 500, headers: {"Content-Type": "application/json"}})
                         }
                     } else {
                         return new Response(JSON.stringify({success: false, error: true, msg: "ACCOUNT_GENERATE_FAILED"}), {status: 500, headers: {"Content-Type": "application/json"}})
@@ -59,16 +58,34 @@ export async function POST(request: RequestEvent) {
 
             // @ts-ignore
             if ("accountId" in result) {
-                const res1 = await createSubscription(result.accountId, import.meta.env.VITE_WEBHOOK_HOST + "/api/eventFromTatum")
+                const res1 = await createSubscription(result.accountId, import.meta.env.VITE_WEBHOOK_HOST + "/webhook")
                 if(!res1){
                     return new Response(JSON.stringify({success: false, error: true, msg: "SUBSCRIPTION_FAILED"}), {status: 500, headers: {"Content-Type": "application/json"}})
                 }
 
                 const depositAddress = await generateDepositAddress(result.accountId)
                 if(depositAddress) {
-                    return new Response(JSON.stringify({success: true, error: false, result: {address: depositAddress, currency: paymentData.currency,}}), {status: 201, headers: {"Content-Type": "application/json"}})
+                    const cryptoAmount = await localCurrencyToCrypto(paymentData.amount,paymentData.localCurrency,paymentData.currency)
+                    if(!cryptoAmount){
+                        return new Response(JSON.stringify({success: false, error: true, msg: "LOCAL_CURRENCY_CONVERSION_FAILED"}), {status: 500, headers: {"Content-Type": "application/json"}})
+                    }
+
+                    const fees = await calculateFees(result.accountId,result.currency,result.xpub,paymentData.address,depositAddress,cryptoAmount.toFixed(8))
+                    if(!fees){
+                        return new Response(JSON.stringify({success: false, error: true, msg: "FEES_CALCULATION_FAILED"}), {status: 500, headers: {"Content-Type": "application/json"}})
+                    }
+
+                    const paymentCharge = await createCharge(paymentData,depositAddress,cryptoAmount,fees)
+                    if(!paymentCharge){
+                        return new Response(JSON.stringify({success: false, error: true, msg: "CHARGE_CREATION_FAILED"}), {status: 500, headers: {"Content-Type": "application/json"}})
+                    }
+
+                    // @ts-ignore
+                    delete paymentCharge['_id']
+
+                    return new Response(JSON.stringify({success: false, error: true, result: paymentCharge}), {status: 201, headers: {"Content-Type": "application/json"}})
                 } else {
-                    return new Response(JSON.stringify({success: false, error: true, msg: "ADDRESS_INCREMENTATION_FAILED"}), {status: 201, headers: {"Content-Type": "application/json"}})
+                    return new Response(JSON.stringify({success: false, error: true, msg: "ADDRESS_INCREMENTATION_FAILED"}), {status: 500, headers: {"Content-Type": "application/json"}})
                 }
 
             }
@@ -81,6 +98,6 @@ export async function POST(request: RequestEvent) {
         }
     } catch(err){
         console.error(err)
-        return new Response(JSON.stringify({success: false, error: true, msg: "BODY_SHOULD_BE_JSON"}))
+        return new Response(JSON.stringify({success: false, error: true, msg: "BODY_SHOULD_BE_JSON"}), {status: 500, headers: {"Content-Type": "application/json"}})
     }
 }

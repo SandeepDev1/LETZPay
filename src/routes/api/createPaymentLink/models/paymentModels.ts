@@ -2,20 +2,23 @@ export const currencies = {
     BTC: "BTC",
     LTC: "LTC",
     BCH: "BCH",
-    CELO: "CELO",
     DOGE: "DOGE",
     ETH: "ETH",
-    KCS: "KCS",
-    KLAY: "KLAY",
     MATIC: "MATIC",
-    TRON: "TRON",
-    XDC: "XDC"
 }
 
 export const localCurrency = {
     USD: "USD",
     INR: "INR",
-    EUR: "EUR"
+    EUR: "EUR",
+    JPY: "JPY",
+    GBP: "GBP",
+    AUD: "AUD",
+    CAD: "CAD",
+    CHF: "CHF",
+    CNH: "CNH",
+    HKD: "HKD",
+    NZD: "NZD"
 }
 
 export const STATUS = {

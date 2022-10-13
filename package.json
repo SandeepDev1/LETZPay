@@ -16,6 +16,7 @@
 		"@playwright/test": "^1.25.0",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
+		"@types/jsdom": "^20.0.0",
 		"eslint": "^8.16.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^4.0.0",
@@ -29,7 +30,11 @@
 	"type": "module",
 	"dependencies": {
 		"@tatumio/tatum": "^1.37.0",
+		"html-dom-parser": "^3.1.2",
+		"jsdom": "^18.1.1",
+		"linkedom": "^0.14.17",
 		"mongodb": "^4.10.0",
-		"mongodb-legacy": "^4.0.0"
+		"mongodb-legacy": "^4.0.0",
+		"node-fetch": "^3.2.10"
 	}
 }

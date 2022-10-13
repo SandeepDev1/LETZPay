@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb"
-import type {Wallet, SubscriptionDetails} from "../../routes/api/createPaymentLink/models/dbModels";
+import type {Wallet, SubscriptionDetails, PaymentSchema} from "../../routes/api/createPaymentLink/models/dbModels";
 const client = new MongoClient(import.meta.env.VITE_DB_URL)
 const connection = await client.connect()
 const db = connection.db(import.meta.env.VITE_DB_NAME)
@@ -43,6 +43,17 @@ export const getWebhookSubscriptionDetails = async (accountId: string, subscript
         const collection = db.collection("subscriptionList")
         const result = await collection.findOne({accountId,subscriptionType})
         return result as unknown as SubscriptionDetails
+    } catch(err){
+        console.error(err)
+        return false
+    }
+}
+
+export const addPaymentCharge = async (data: PaymentSchema) => {
+    try {
+        const collection = db.collection("charges")
+        await collection.insertOne(data)
+        return true
     } catch(err){
         console.error(err)
         return false
