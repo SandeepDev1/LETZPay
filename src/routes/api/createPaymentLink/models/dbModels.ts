@@ -34,4 +34,20 @@ export interface PaymentSchema {
     gasLimit?: string
     gasPrice?: string
     totalAmount?: string
+    pendingAmount?: string
+}
+
+export interface SubscriptionModel {
+    date: number
+    amount: string
+    currency: string
+    accountId: string
+    reference: string
+    txId: string
+    blockHash: string
+    blockHeight: number
+    from: string
+    to: string
+    index: number
+    subscriptionType: string
 }
