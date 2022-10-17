@@ -84,7 +84,7 @@ export const localCurrencyToCrypto = async (amount: string, localCurrency: strin
 }
 
 
-export const createCharge = async (data: CreatePayment, depositAddress: string, cryptoAmount: number, fees: string | {fees: string, gasPrice: string, gasLimit: string}) => {
+export const createCharge = async (data: CreatePayment, depositAddress: string, derivationKey: number | undefined, cryptoAmount: number, fees: string | {fees: string, gasPrice: string, gasLimit: string}) => {
     try {
         const uid = uuidv4().toString()
 
@@ -99,6 +99,7 @@ export const createCharge = async (data: CreatePayment, depositAddress: string, 
             amount: cryptoAmount.toFixed(8),
             currency: data.currency,
             webhookUrl: data.webhookUrl,
+            derivationKey: derivationKey
         }
 
         if(typeof(fees) == "string"){

@@ -70,12 +70,12 @@ export async function POST(request: RequestEvent) {
                         return new Response(JSON.stringify({success: false, error: true, msg: "LOCAL_CURRENCY_CONVERSION_FAILED"}), {status: 500, headers: {"Content-Type": "application/json"}})
                     }
 
-                    const fees = await calculateFees(result.accountId,result.currency,result.xpub,paymentData.address,depositAddress,cryptoAmount.toFixed(8))
+                    const fees = await calculateFees(result.accountId,result.currency,result.xpub,paymentData.address,depositAddress.address,cryptoAmount.toFixed(8))
                     if(!fees){
                         return new Response(JSON.stringify({success: false, error: true, msg: "FEES_CALCULATION_FAILED"}), {status: 500, headers: {"Content-Type": "application/json"}})
                     }
 
-                    const paymentCharge = await createCharge(paymentData,depositAddress,cryptoAmount,fees)
+                    const paymentCharge = await createCharge(paymentData,depositAddress.address,depositAddress.derivationKey,cryptoAmount,fees)
                     if(!paymentCharge){
                         return new Response(JSON.stringify({success: false, error: true, msg: "CHARGE_CREATION_FAILED"}), {status: 500, headers: {"Content-Type": "application/json"}})
                     }

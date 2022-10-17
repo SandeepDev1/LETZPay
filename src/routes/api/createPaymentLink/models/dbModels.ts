@@ -35,6 +35,7 @@ export interface PaymentSchema {
     gasPrice?: string
     totalAmount?: string
     pendingAmount?: string
+    derivationKey: number | undefined
 }
 
 export interface SubscriptionModel {
