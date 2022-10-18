@@ -32,7 +32,7 @@ export const generateDepositAddress = async (accountId: string) => {
     try {
         const address = await Tatum.generateDepositAddress(accountId)
         console.log(address)
-        return address.address
+        return {address: address.address, derivationKey: address.derivationKey}
     } catch(err){
         console.error(err)
         return false
