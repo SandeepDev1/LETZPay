@@ -1,5 +1,9 @@
 <script>
     import Hero from "$lib/components/1.svelte"
+    import Nav from "$lib/components/nav.svelte"
 </script>
 
-<Hero/>
+<div>
+    <Nav/>
+    <Hero/>
+</div>
