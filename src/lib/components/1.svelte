@@ -1,1 +1,3 @@
-<section class="h-[100vh]"></section>
+<section class="h-[100vh] bg-shade6">
+
+</section>
