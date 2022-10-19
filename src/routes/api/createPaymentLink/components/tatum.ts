@@ -1,5 +1,6 @@
 import Tatum, {Currency, SubscriptionType} from '@tatumio/tatum'
 import {addWebhookSubscriptionDetails, getWebhookSubscriptionDetails} from "../../../../lib/mongo/db";
+import { logtail } from "../../../../lib/logs";
 
 export const generateWalletFromCurrency = async (currency: String, testnet: boolean) => {
     return Tatum.generateWallet(Currency[currency as keyof typeof Currency], testnet);
@@ -22,8 +23,8 @@ export const createSubscription = async (accountId: string, url: string) => {
         }
 
         return true
-    } catch(err){
-        console.error(err)
+    } catch(err: any){
+        await logtail.error(err.toString())
         return false
     }
 }
@@ -31,10 +32,10 @@ export const createSubscription = async (accountId: string, url: string) => {
 export const generateDepositAddress = async (accountId: string) => {
     try {
         const address = await Tatum.generateDepositAddress(accountId)
-        console.log(address)
+        await logtail.info(JSON.stringify(address))
         return {address: address.address, derivationKey: address.derivationKey}
-    } catch(err){
-        console.error(err)
+    } catch(err: any){
+        await logtail.error(err.toString())
         return false
     }
 

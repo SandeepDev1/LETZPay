@@ -4,10 +4,11 @@ import type {
     withdrawResponseModel
 } from "../../createPaymentLink/models/withdrawModel";
 import {currencyWithdrawName} from "../../createPaymentLink/models/withdrawModel";
+import { logtail } from "../../../../lib/logs";
 
 export const withdrawLedger = async (data: withdrawLedgerInputModel, currency: string) => {
     try {
-        console.log(data)
+        await logtail.info(JSON.stringify(data))
         if(!currency || !(currency in currencyWithdrawName)){
             return false
         }
@@ -16,7 +17,7 @@ export const withdrawLedger = async (data: withdrawLedgerInputModel, currency: s
 
         // @ts-ignore
         const currencyName = currencyWithdrawName[currency]
-        console.log(currencyName)
+        await logtail.info(currencyName)
         const res = await fetch(`https://api-eu1.tatum.io/v3/offchain/${currencyName}/transfer`, {
             method: "POST",
             headers: {
@@ -36,7 +37,7 @@ export const withdrawLedger = async (data: withdrawLedgerInputModel, currency: s
         })
 
         const json: withdrawResponseModel = await res.json()
-        console.log(json)
+        await logtail.info(JSON.stringify(json))
         if(!json.completed){
             const res = await fetch(`https://api-eu1.tatum.io/v3/offchain/withdrawal/${json.id}/${json.txId}`, {
                 method: "PUT",
@@ -50,26 +51,28 @@ export const withdrawLedger = async (data: withdrawLedgerInputModel, currency: s
             }
 
             const dataJson = await res.json()
-            console.error(dataJson)
+            await logtail.info(JSON.stringify(dataJson))
 
             return false
         }
 
         return json.txId
-    } catch(err){
-        console.log(err)
+    } catch(err: any){
+        await logtail.error(err)
+        return false
     }
 }
 
 export const withdrawEstimate = async (data: withdrawEstimateInputModel, currency: string) => {
     try {
+        await logtail.info(JSON.stringify(data))
         if(!currency || !(currency in currencyWithdrawName)){
             return false
         }
 
         // @ts-ignore
         const currencyName = currencyWithdrawName[currency]
-        console.log(currencyName)
+        await logtail.info(currencyName)
         const res = await fetch(`https://api-eu1.tatum.io/v3/offchain/${currencyName}/transfer`, {
             method: "POST",
             headers: {
@@ -90,6 +93,7 @@ export const withdrawEstimate = async (data: withdrawEstimateInputModel, currenc
         })
 
         const json: withdrawResponseModel = await res.json()
+        await logtail.info(JSON.stringify(json))
         if(!json.completed){
             const res = await fetch(`https://api-eu1.tatum.io/v3/offchain/withdrawal/${json.id}/${json.txId}`, {
                 method: "PUT",
@@ -103,13 +107,14 @@ export const withdrawEstimate = async (data: withdrawEstimateInputModel, currenc
             }
 
             const dataJson = await res.json()
-            console.error(dataJson)
+            await logtail.error(JSON.stringify(dataJson))
 
             return false
         }
 
         return json.txId
-    } catch(err){
-        console.log(err)
+    } catch(err: any){
+        await logtail.error(err)
+        return false
     }
 }

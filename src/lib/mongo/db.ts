@@ -1,18 +1,19 @@
 import {MongoClient} from "mongodb"
 import type {PaymentSchema, SubscriptionDetails, Wallet} from "../../routes/api/createPaymentLink/models/dbModels";
+import { logtail } from "../logs";
 
 const client = new MongoClient(import.meta.env.VITE_DB_URL)
 const connection = await client.connect()
 const db = connection.db(import.meta.env.VITE_DB_NAME)
-console.log("Connected to database")
+await logtail.info("Connected to database")
 
 export const getCurrencyDetails: (currency: string) => Promise<Wallet | boolean> = async(currency: string) => {
     try {
         const collection = db.collection("currencyList")
         const result = await collection.findOne({currency})
         return result as unknown as Wallet
-    } catch(err){
-        console.error(err)
+    } catch(err: any){
+        await logtail.error(err.toString())
         return false
     }
 }
@@ -22,8 +23,8 @@ export const addCurrencyDetails = async (data: Wallet) => {
         const collection = db.collection("currencyList")
         await collection.insertOne(data)
         return true
-    } catch(err){
-        console.error(err)
+    } catch(err: any){
+        await logtail.error(err.toString())
         return false
     }
 }
@@ -33,8 +34,8 @@ export const addWebhookSubscriptionDetails = async (data: SubscriptionDetails) =
         const collection = db.collection("subscriptionList")
         await collection.insertOne(data)
         return true
-    } catch(err){
-        console.error(err)
+    } catch(err: any){
+        await logtail.error(err.toString())
         return false
     }
 }
@@ -44,8 +45,8 @@ export const getWebhookSubscriptionDetails = async (accountId: string, subscript
         const collection = db.collection("subscriptionList")
         const result = await collection.findOne({accountId,subscriptionType})
         return result as unknown as SubscriptionDetails
-    } catch(err){
-        console.error(err)
+    } catch(err: any){
+        await logtail.error(err.toString())
         return false
     }
 }
@@ -55,8 +56,8 @@ export const addPaymentCharge = async (data: PaymentSchema) => {
         const collection = db.collection("charges")
         await collection.insertOne(data)
         return true
-    } catch(err){
-        console.error(err)
+    } catch(err: any){
+        await logtail.error(err.toString())
         return false
     }
 }
@@ -66,8 +67,8 @@ export const updateChargeStatus = async (address: string, status: string) => {
         const collection = db.collection("charges")
         await collection.updateOne({address}, {$set: {status}})
         return true
-    } catch(err){
-        console.error(err)
+    } catch(err: any){
+        await logtail.error(err.toString())
         return false
     }
 }
@@ -77,8 +78,8 @@ export const updatePendingAmount = async (address: string, amount: string) => {
         const collection = db.collection("charges")
         await collection.updateOne({address}, {$set: {pendingAmount: amount}})
         return true
-    } catch(err){
-        console.error(err)
+    } catch(err: any){
+        await logtail.error(err.toString())
         return false
     }
 }

@@ -2,13 +2,15 @@ import fetch from "node-fetch";
 import Tatum from "@tatumio/tatum";
 import type {celoFees, ethFees, kcsFees, klayFees, ledgerFees, maticFees, xdcFees} from "../models/feeModels";
 import {getCryptoPrice} from "../utils";
+import { logtail } from "../../../../lib/logs";
 
 export const estimateEthFees = async (from: string, to: string, amount: string) => {
     try {
         const data: ethFees = await Tatum.ethEstimateGas({from, to, amount})
         return data
     } catch(err){
-        console.error(err)
+        // @ts-ignore
+        await logtail.error(err)
         return false
     }
 }
@@ -31,7 +33,8 @@ export const estimateCeloFees = async(from: string, to: string, amount: string) 
         const json = await res.json()
         return json as celoFees
     } catch(err){
-        console.error(err)
+        // @ts-ignore
+        await logtail.error(err)
         return false
     }
 }
@@ -54,7 +57,8 @@ export const estimateKcsFees = async (from: string, to: string, amount: string) 
         const json = await res.json()
         return json as kcsFees
     } catch(err){
-        console.error(err)
+        // @ts-ignore
+        await logtail.error(err)
         return false
     }
 }
@@ -64,7 +68,8 @@ export const estimateKlayFees = async (from: string, to: string, amount: string)
         const data: klayFees = await Tatum.klaytnEstimateGas({from,to,amount})
         return data
     } catch(err){
-        console.error(err)
+        // @ts-ignore
+        await logtail.error(err)
         return false
     }
 }
@@ -74,7 +79,8 @@ export const estimateMaticFees = async (from: string, to: string, amount: string
         const data: maticFees = await Tatum.polygonEstimateGas({from, to, amount})
         return data
     } catch(err){
-        console.error(err)
+        // @ts-ignore
+        await logtail.error(err)
         return false
     }
 }
@@ -84,7 +90,8 @@ export const estimateXdcFees = async (from: string, to: string, amount: string) 
         const data: xdcFees = await Tatum.xdcEstimateGas({from, to, amount})
         return data
     } catch(err){
-        console.error(err)
+        // @ts-ignore
+        await logtail.error(err)
         return false
     }
 }
@@ -109,10 +116,11 @@ export const estimateLedgerFees = async (senderAccountId: string, toAddress: str
         );
 
         const data = await res.json();
-        console.log(data)
+        await logtail.info(JSON.stringify(data))
         return data as ledgerFees
     } catch(err){
-        console.error(err)
+        // @ts-ignore
+        await logtail.error(err)
         return false
     }
 }
