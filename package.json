@@ -39,6 +39,8 @@
 		"linkedom": "^0.14.17",
 		"mongodb": "^4.10.0",
 		"mongodb-legacy": "^4.0.0",
-		"node-fetch": "^3.2.10"
+		"node-fetch": "^3.2.10",
+		"node-gyp": "^9.3.0",
+		"sodium-native": "^3.4.1"
 	}
 }
