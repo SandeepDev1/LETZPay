@@ -1,6 +1,6 @@
 import type {CreatePayment, PaymentSchema} from "./models/dbModels";
 import {currencies, localCurrency, STATUS} from "./models/paymentModels";
-import { v4 as uuidv4 } from 'uuid';
+const { v4: uuidv4 } = require('uuid');
 import {addPaymentCharge} from "../../../lib/mongo/db";
 
 export const verifyCreatePaymentRequest = (data: Object) => {
