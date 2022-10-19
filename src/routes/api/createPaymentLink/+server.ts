@@ -82,6 +82,7 @@ export async function POST(request: RequestEvent) {
 
                     // @ts-ignore
                     delete paymentCharge['_id']
+                    delete paymentCharge.derivationKey
 
                     return new Response(JSON.stringify({success: false, error: true, result: paymentCharge}), {status: 201, headers: {"Content-Type": "application/json"}})
                 } else {

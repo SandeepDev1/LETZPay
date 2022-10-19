@@ -1,5 +1,5 @@
 
-export const sendWebhook = async (url: string, chargeId: string, amount: string, currency: string, txn: string) => {
+export const sendWebhook = async (url: string, chargeId: string, amount: string, currency: string, txn: string, metadata: string) => {
     const res = await fetch(url, {
         method: "POST",
         headers: {
@@ -9,7 +9,8 @@ export const sendWebhook = async (url: string, chargeId: string, amount: string,
             chargeId,
             amount,
             currency,
-            txn
+            txn,
+            metadata
         })
     })
 }

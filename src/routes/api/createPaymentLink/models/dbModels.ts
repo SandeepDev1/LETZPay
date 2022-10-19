@@ -4,6 +4,7 @@ export interface CreatePayment {
     localCurrency: string
     webhookUrl: string
     currency: string
+    metadata: string
 }
 
 export interface SubscriptionDetails {
@@ -36,6 +37,7 @@ export interface PaymentSchema {
     totalAmount?: string
     pendingAmount?: string
     derivationKey: number | undefined
+    metadata: string
 }
 
 export interface SubscriptionModel {

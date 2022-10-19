@@ -7,9 +7,12 @@ import {currencyWithdrawName} from "../../createPaymentLink/models/withdrawModel
 
 export const withdrawLedger = async (data: withdrawLedgerInputModel, currency: string) => {
     try {
+        console.log(data)
         if(!currency || !(currency in currencyWithdrawName)){
             return false
         }
+
+        data.fees = parseFloat(data.fees).toFixed(8)
 
         // @ts-ignore
         const currencyName = currencyWithdrawName[currency]
@@ -17,7 +20,8 @@ export const withdrawLedger = async (data: withdrawLedgerInputModel, currency: s
         const res = await fetch(`https://api-eu1.tatum.io/v3/offchain/${currencyName}/transfer`, {
             method: "POST",
             headers: {
-                "x-api-key": import.meta.env.VITE_TATUM_API_KEY
+                "x-api-key": import.meta.env.VITE_TATUM_API_KEY,
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(
                 {
@@ -26,12 +30,13 @@ export const withdrawLedger = async (data: withdrawLedgerInputModel, currency: s
                     "amount": data.amount,
                     "mnemonic": data.mnemonic,
                     "xpub": data.xpub,
-                    "fees": data.fees
+                    "fee": data.fees
                 }
             )
         })
 
         const json: withdrawResponseModel = await res.json()
+        console.log(json)
         if(!json.completed){
             const res = await fetch(`https://api-eu1.tatum.io/v3/offchain/withdrawal/${json.id}/${json.txId}`, {
                 method: "PUT",
@@ -68,6 +73,7 @@ export const withdrawEstimate = async (data: withdrawEstimateInputModel, currenc
         const res = await fetch(`https://api-eu1.tatum.io/v3/offchain/${currencyName}/transfer`, {
             method: "POST",
             headers: {
+                "Content-Type": "application/json",
                 "x-api-key": import.meta.env.VITE_TATUM_API_KEY
             },
             body: JSON.stringify(

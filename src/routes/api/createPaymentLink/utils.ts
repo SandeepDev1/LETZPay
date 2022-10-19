@@ -9,7 +9,8 @@ export const verifyCreatePaymentRequest = (data: Object) => {
         amount: "",
         localCurrency: "",
         webhookUrl: "",
-        currency: ""
+        currency: "",
+        metadata: ""
     }
 
     if(!("address" in data)){
@@ -53,6 +54,16 @@ export const verifyCreatePaymentRequest = (data: Object) => {
 
     if(!(paymentData.currency in currencies)){
         return {error: true, msg: `We only support these crypto currencies ${Object.keys(currencies).join(" , ")}`}
+    }
+
+    if("metadata" in data){
+        // @ts-ignore
+        if(typeof(data["metadata"]) != "string"){
+            return {error: true, msg: "metadata should be in string. Please stringify your data to convert into string"}
+        }
+
+        // @ts-ignore
+        paymentData.metadata = data["metadata"]
     }
 
     return paymentData
@@ -99,7 +110,8 @@ export const createCharge = async (data: CreatePayment, depositAddress: string, 
             amount: cryptoAmount.toFixed(8),
             currency: data.currency,
             webhookUrl: data.webhookUrl,
-            derivationKey: derivationKey
+            derivationKey: derivationKey,
+            metadata: data.metadata
         }
 
         if(typeof(fees) == "string"){
