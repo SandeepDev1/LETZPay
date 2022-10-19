@@ -1,6 +1,5 @@
 import {MongoClient} from "mongodb"
 import type {PaymentSchema, SubscriptionDetails, Wallet} from "../../routes/api/createPaymentLink/models/dbModels";
-import {STATUS} from "../../routes/api/createPaymentLink/models/paymentModels";
 
 const client = new MongoClient(import.meta.env.VITE_DB_URL)
 const connection = await client.connect()
