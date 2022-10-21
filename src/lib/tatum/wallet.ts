@@ -4,13 +4,57 @@ import bitcoinjs_lib from "bitcoinjs-lib"
 import { hdkey} from "ethereumjs-wallet"
 import hdkey_1 from "hdkey"
 import {
-  BCH_DERIVATION_PATH, BTC_DERIVATION_PATH, DOGE_DERIVATION_PATH, DOGE_NETWORK,
-  DOGE_TEST_NETWORK,
-  ETH_DERIVATION_PATH, LTC_DERIVATION_PATH, LTC_NETWORK, LTC_TEST_NETWORK,
+  BCH_DERIVATION_PATH, BTC_DERIVATION_PATH, DOGE_DERIVATION_PATH,
+  ETH_DERIVATION_PATH, LTC_DERIVATION_PATH,
   MATIC_DERIVATION_PATH,
   TESTNET_DERIVATION_PATH
 } from "./constants";
 import { Currency } from "./models";
+
+declare const LTC_TEST_NETWORK: {
+  messagePrefix: string;
+  bech32: string;
+  bip32: {
+    public: number;
+    private: number;
+  };
+  pubKeyHash: number;
+  scriptHash: number;
+  wif: number;
+};
+declare const LTC_NETWORK: {
+  messagePrefix: string;
+  bech32: string;
+  bip32: {
+    public: number;
+    private: number;
+  };
+  pubKeyHash: number;
+  scriptHash: number;
+  wif: number;
+};
+declare const DOGE_TEST_NETWORK: {
+  messagePrefix: string;
+  bech32: string;
+  bip32: {
+    public: number;
+    private: number;
+  };
+  pubKeyHash: number;
+  scriptHash: number;
+  wif: number;
+};
+declare const DOGE_NETWORK: {
+  messagePrefix: string;
+  bech32: string;
+  bip32: {
+    public: number;
+    private: number;
+  };
+  pubKeyHash: number;
+  scriptHash: number;
+  wif: number;
+};
 
 export const generateEthWallet = async (testnet: boolean, mnem: string) => {
   const path = testnet ? TESTNET_DERIVATION_PATH : ETH_DERIVATION_PATH;
