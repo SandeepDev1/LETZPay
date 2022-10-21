@@ -1,8 +1,9 @@
 import type {CreatePayment, PaymentSchema} from "./models/dbModels";
-import {currencies, localCurrency, STATUS} from "./models/paymentModels";
+import { STATUS} from "./models/paymentModels";
 const { v4: uuidv4 } = require('uuid');
 import {addPaymentCharge} from "../../../lib/mongo/db";
 import { logtail } from "../../../lib/logs";
+import { LocalCurrency as localCurrency, Currency as currencies } from "../../../lib/tatum/models";
 
 export const verifyCreatePaymentRequest = (data: Object) => {
     let paymentData: CreatePayment = {

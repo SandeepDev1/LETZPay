@@ -3,7 +3,7 @@ import {
     createSubscription,
     generateAccount, generateDepositAddress,
     generateWalletFromCurrency
-} from "./components/tatum";
+} from "../../../lib/tatum";
 import {addCurrencyDetails, getCurrencyDetails} from "../../../lib/mongo/db";
 import {createCharge, localCurrencyToCrypto, verifyCreatePaymentRequest} from "./utils";
 import {calculateFees} from "./components/fees";
@@ -36,6 +36,11 @@ export async function POST(request: RequestEvent) {
 
                         try {
                             const account = await generateAccount(paymentData.currency, xpub)
+                            if(!account){
+                                await logtail.error("ACCOUNT_CREATION_FAILED")
+                                return new Response(JSON.stringify({success: false, error: true, msg: "ACCOUNT_CREATION_FAILED"}), {status: 500, headers: {"Content-Type": "application/json"}})
+                            }
+
                             await logtail.info(JSON.stringify(account))
                             result = {
                                 accountId: account.id,
@@ -47,8 +52,8 @@ export async function POST(request: RequestEvent) {
                             const response = await addCurrencyDetails(result)
                             await logtail.info(JSON.stringify(response))
                             if(!response) {
-                                await logtail.error("ACCOUNT_CREATION_FAILED")
-                                return new Response(JSON.stringify({success: false, error: true, msg: "ACCOUNT_CREATION_FAILED"}), {status: 500, headers: {"Content-Type": "application/json"}})
+                                await logtail.error("CURRENCY_CONVERSION_FAILED")
+                                return new Response(JSON.stringify({success: false, error: true, msg: "CURRENCY_CONVERSION_FAILED"}), {status: 500, headers: {"Content-Type": "application/json"}})
                             }
 
                         } catch(err: any){
