@@ -1,7 +1,7 @@
 
 import bip39 from "bip39"
 import bitcoinjs_lib from "bitcoinjs-lib"
-import { hdkey} from "ethereumjs-wallet"
+import hdkey from "ethereumjs-wallet"
 import hdkey_1 from "hdkey"
 import {
   BCH_DERIVATION_PATH, BTC_DERIVATION_PATH, DOGE_DERIVATION_PATH,
