@@ -1,10 +1,10 @@
-import Tatum, { SubscriptionType } from "@tatumio/tatum";
 import { addWebhookSubscriptionDetails, getWebhookSubscriptionDetails } from "../mongo/db";
 import { logtail } from "../logs";
 import { generateWallet } from "./wallet";
 import fetch from "node-fetch";
 import type { Account, Address } from "./models";
 import type { CreateSubscription } from "./models";
+import { SubscriptionType } from "./models";
 
 export const generateWalletFromCurrency = async (currency: string, testnet: boolean) => {
   return generateWallet(currency,testnet)
