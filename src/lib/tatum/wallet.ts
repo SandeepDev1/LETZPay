@@ -68,8 +68,8 @@ export const generateEthWallet = async (testnet: boolean, mnem: string) => {
 
 export const generatePolygonWallet = async (testnet: boolean, mnem: string) => {
   const path = testnet ? TESTNET_DERIVATION_PATH : MATIC_DERIVATION_PATH;
-  const hdwallet = hdkey.fromMasterSeed(await bip39.mnemonicToSeed(mnem));
-  const derivePath = hdwallet.derivePath(path);
+  const hdwallet = EthereumHDKey.fromMasterSeed(await bip39.mnemonicToSeed(mnem))
+  const derivePath = hdwallet.derivePath(path)
   return {
     xpub: derivePath.publicExtendedKey().toString(),
     mnemonic: mnem,

@@ -1,6 +1,6 @@
 import type {CreatePayment, PaymentSchema} from "./models/dbModels";
 import { STATUS} from "./models/paymentModels";
-const { v4: uuidv4 } = require('uuid');
+import { uuid as uuidv4 } from 'uuidv4';
 import {addPaymentCharge} from "../../../lib/mongo/db";
 import { logtail } from "../../../lib/logs";
 import { LocalCurrency as localCurrency, Currency as currencies } from "../../../lib/tatum/models";
