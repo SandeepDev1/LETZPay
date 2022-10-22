@@ -7,7 +7,7 @@ if(!connection){
     connection = await client.connect()
 }
 
-const db = connection.db(import.meta.env.VITE_DB_NAME)
+const db = connection.db(process.env.VITE_DB_NAME ?? "")
 await logtail.info("Connected to database")
 
 export const getCurrencyDetails: (currency: string) => Promise<Wallet | boolean> = async(currency: string) => {
