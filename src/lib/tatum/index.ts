@@ -25,6 +25,7 @@ export const generateAccount = async (currency: string, xpub: string) => {
     })
 
     const json = await res.json()
+    await logtail.info(JSON.stringify(json))
     return json as unknown as Account
   } catch(err: any){
     await logtail.error(err)
