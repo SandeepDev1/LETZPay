@@ -3,7 +3,7 @@ export const manifest = {
 	assets: new Set(["favicon.png","letzpay copy.png"]),
 	mimeTypes: {".png":"image/png"},
 	_: {
-		entry: {"file":"_app/immutable/start-ed7a39f5.js","imports":["_app/immutable/start-ed7a39f5.js","_app/immutable/chunks/index-261e70bd.js","_app/immutable/chunks/singletons-04d00b6b.js"],"stylesheets":[]},
+		entry: {"file":"_app/immutable/start-eb621176.js","imports":["_app/immutable/start-eb621176.js","_app/immutable/chunks/index-261e70bd.js","_app/immutable/chunks/singletons-9bdb9f0f.js"],"stylesheets":[]},
 		nodes: [
 			() => import('./nodes/0.js'),
 			() => import('./nodes/1.js'),
