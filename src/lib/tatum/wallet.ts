@@ -1,7 +1,7 @@
 
 import bip39 from "bip39"
 import bitcoinjs_lib from "bitcoinjs-lib"
-import hdkey from 'ethereumjs-wallet/src/hdkey';
+import EthereumHDKey from "ethereumjs-wallet/hdkey"
 import hdkey_1 from "hdkey"
 import {
   BCH_DERIVATION_PATH, BTC_DERIVATION_PATH, DOGE_DERIVATION_PATH,
@@ -58,8 +58,8 @@ declare const DOGE_NETWORK: {
 
 export const generateEthWallet = async (testnet: boolean, mnem: string) => {
   const path = testnet ? TESTNET_DERIVATION_PATH : ETH_DERIVATION_PATH;
-  const hdwallet = hdkey.fromMasterSeed(await bip39.mnemonicToSeed(mnem));
-  const derivePath = hdwallet.derivePath(path);
+  const hdwallet = EthereumHDKey.fromMasterSeed(await bip39.mnemonicToSeed(mnem))
+  const derivePath = hdwallet.derivePath(path)
   return {
     xpub: derivePath.publicExtendedKey().toString(),
     mnemonic: mnem,
