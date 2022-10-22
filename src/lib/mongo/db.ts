@@ -1,9 +1,12 @@
 import {MongoClient} from "mongodb"
 import type {PaymentSchema, SubscriptionDetails, Wallet} from "../../routes/api/createPaymentLink/models/dbModels";
 import { logtail } from "../logs";
-
+var connection
 const client = new MongoClient(import.meta.env.VITE_DB_URL)
-const connection = await client.connect()
+if(!connection){
+    connection = await client.connect()
+}
+
 const db = connection.db(import.meta.env.VITE_DB_NAME)
 await logtail.info("Connected to database")
 
