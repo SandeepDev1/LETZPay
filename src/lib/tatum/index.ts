@@ -16,7 +16,7 @@ export const generateAccount = async (currency: string, xpub: string) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": import.meta.env.VITE_TATUM_API_KEY,
+        "x-api-key": process.env.VITE_TATUM_API_KEY ?? "",
       },
       body: JSON.stringify({
         currency,
@@ -39,7 +39,7 @@ const createNewSubscription = async (data: CreateSubscription) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": import.meta.env.VITE_TATUM_API_KEY,
+        "x-api-key": process.env.VITE_TATUM_API_KEY ?? "",
       },
       body: JSON.stringify(data)
     })
@@ -93,7 +93,7 @@ export const generateDepositAddress = async (accountId: string) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": import.meta.env.VITE_TATUM_API_KEY,
+        "x-api-key": process.env.VITE_TATUM_API_KEY ?? "",
       },
     })
 

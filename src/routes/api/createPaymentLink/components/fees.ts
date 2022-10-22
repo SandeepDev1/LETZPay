@@ -9,7 +9,7 @@ export const estimateEthFees = async (from: string, to: string, amount: string) 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-api-key': import.meta.env.VITE_TATUM_API_KEY
+                'x-api-key': process.env.VITE_TATUM_API_KEY ?? "",
             },
             body: JSON.stringify({
                 from: from,
@@ -32,7 +32,7 @@ export const estimateMaticFees = async (from: string, to: string, amount: string
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-api-key': import.meta.env.VITE_TATUM_API_KEY
+                'x-api-key': process.env.VITE_TATUM_API_KEY ?? "",
             },
             body: JSON.stringify({
                 from: from,
@@ -57,7 +57,7 @@ export const estimateLedgerFees = async (senderAccountId: string, toAddress: str
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-api-key': import.meta.env.VITE_TATUM_API_KEY
+                    'x-api-key': process.env.VITE_TATUM_API_KEY ?? "",
                 },
                 body: JSON.stringify({
                     senderAccountId: senderAccountId,

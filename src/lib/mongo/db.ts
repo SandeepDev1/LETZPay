@@ -2,7 +2,7 @@ import {MongoClient} from "mongodb"
 import type {PaymentSchema, SubscriptionDetails, Wallet} from "../../routes/api/createPaymentLink/models/dbModels";
 import { logtail } from "../logs";
 var connection
-const client = new MongoClient(import.meta.env.VITE_DB_URL)
+const client = new MongoClient(process.env.VITE_DB_URL ?? "")
 if(!connection){
     connection = await client.connect()
 }

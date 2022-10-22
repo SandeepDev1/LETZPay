@@ -74,7 +74,7 @@ export async function POST(request: RequestEvent) {
 
             // @ts-ignore
             if ("accountId" in result) {
-                const res1 = await createSubscription(result.accountId, import.meta.env.VITE_WEBHOOK_HOST + "/eventFromTatum")
+                const res1 = await createSubscription(result.accountId, process.env.VITE_WEBHOOK_HOST ?? "" + "/eventFromTatum")
                 await logtail.info(JSON.stringify(res1))
                 if(!res1){
                     await logtail.error("SUBSCRIPTION_FAILED")
