@@ -142,7 +142,7 @@ export const calculateFees = async (accountId: string, currency: string, xpub: s
                 return false
             }
 
-            gwei = parseFloat(ethFees.gasPrice) / parseFloat("100000000")
+            gwei = parseFloat(ethFees.gasPrice) / parseFloat("1000000000")
             const ethPriceInGwei = gwei * parseFloat(ethFees.gasLimit)
             const ethAmount = (ethPriceInGwei / 1000000000).toFixed(8)
 
@@ -161,7 +161,7 @@ export const calculateFees = async (accountId: string, currency: string, xpub: s
                 return false
             }
 
-            gwei = parseFloat(maticFees.gasPrice) / parseFloat("100000000")
+            gwei = parseFloat(maticFees.gasPrice) / parseFloat("1000000000")
             const maticPriceInGwei = gwei * parseFloat(maticFees.gasLimit)
             const maticAmount = (maticPriceInGwei / 1000000000).toFixed(8)
             return {
