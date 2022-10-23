@@ -54,6 +54,8 @@ const createNewSubscription = async (data: CreateSubscription) => {
 
 export const createSubscription = async (accountId: string, url: string) => {
   try {
+    console.log(accountId)
+    console.log(url)
     if(!await getWebhookSubscriptionDetails(accountId,SubscriptionType.ACCOUNT_INCOMING_BLOCKCHAIN_TRANSACTION)){
       const sub1 = await createNewSubscription({type: SubscriptionType.ACCOUNT_INCOMING_BLOCKCHAIN_TRANSACTION, attr: {id: accountId, url: url}})
       if (typeof sub1 !== "boolean") {
