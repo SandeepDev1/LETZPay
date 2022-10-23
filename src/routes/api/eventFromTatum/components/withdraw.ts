@@ -5,6 +5,7 @@ import type {
 } from "../../createPaymentLink/models/withdrawModel";
 import {currencyWithdrawName} from "../../createPaymentLink/models/withdrawModel";
 import { percentFees } from "../../../../lib/tatum/constants";
+import { Blockchain } from "../../../../lib/tatum/network";
 
 export const withdrawLedger = async (data: withdrawLedgerInputModel, currency: string) => {
     try {
@@ -78,8 +79,8 @@ export const withdrawEstimate = async (data: withdrawEstimateInputModel, currenc
               "address": data.address,
               "amount": data.amount,
               "mnemonic": data.mnemonic,
-              "gasLimit": data.gasLimit,
-              "gasPrice": data.gasPrice,
+              "gasLimit": currency === "MATIC" ? parseInt(data.gasLimit) : data.gasLimit,
+              "gasPrice": currency === "MATIC" ? parseInt(data.gasPrice) : data.gasPrice,
               "index": data.derivationKey,
           }
         )
@@ -99,14 +100,15 @@ export const withdrawEstimate = async (data: withdrawEstimateInputModel, currenc
                     "address": data.address,
                     "amount": data.amount,
                     "mnemonic": data.mnemonic,
-                    "gasLimit": data.gasLimit,
-                    "gasPrice": data.gasPrice,
+                    "gasLimit": currency === "MATIC" ? parseInt(data.gasLimit) : data.gasLimit,
+                    "gasPrice": currency === "MATIC" ? parseInt(data.gasPrice) : data.gasPrice,
                     "index": data.derivationKey,
                 }
             )
         })
 
-        const json: withdrawResponseModel = await res.json()
+
+      const json: withdrawResponseModel = await res.json()
         console.log(JSON.stringify(json))
         if(!json.completed){
             const res = await fetch(`https://api-eu1.tatum.io/v3/offchain/withdrawal/${json.id}/${json.txId}`, {

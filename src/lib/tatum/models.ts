@@ -3,8 +3,8 @@ export const Currency = {
   LTC: "LTC",
   BCH: "BCH",
   DOGE: "DOGE",
-  ETH: "ETH",
-  MATIC: "MATIC"
+  // ETH: "ETH",
+  // MATIC: "MATIC"
 }
 
 export const LocalCurrency = {
