@@ -91,11 +91,19 @@ export const calculateFees = async (accountId: string, currency: string, xpub: s
                 return false
             }
 
+            if(parseFloat(btcFees.medium) < 0.00001){
+                return 0.00001.toFixed(8)
+            }
+
             return btcFees.medium
         case "LTC":
             const ltcFees = await estimateLedgerFees(accountId,merchantAddress,amount,xpub)
             if(!ltcFees){
                 return false
+            }
+
+            if(parseFloat(ltcFees.medium) < 0.00001){
+                return 0.00001.toFixed(8)
             }
 
             return ltcFees.medium
@@ -106,12 +114,20 @@ export const calculateFees = async (accountId: string, currency: string, xpub: s
                 return false
             }
 
+            if(parseFloat(dogeFees.medium) < 0.00001){
+                return 0.00001.toFixed(8)
+            }
+
             return dogeFees.medium
 
         case "BCH":
             const bchFees = await estimateLedgerFees(accountId,merchantAddress,amount,xpub)
             if(!bchFees){
                 return false
+            }
+
+            if(parseFloat(bchFees.medium) < 0.00001){
+                return 0.00001.toFixed(8)
             }
 
             return bchFees.medium
