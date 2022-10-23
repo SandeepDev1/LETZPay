@@ -1,6 +1,5 @@
 import {MongoClient} from "mongodb"
 import type {PaymentSchema, SubscriptionDetails, Wallet} from "../../routes/api/createPaymentLink/models/dbModels";
-import { logtail } from "../logs";
 var connection
 const client = new MongoClient(process.env.VITE_DB_URL ?? "")
 if(!connection){
@@ -8,7 +7,7 @@ if(!connection){
 }
 
 const db = connection.db(process.env.VITE_DB_NAME ?? "")
-await logtail.info("Connected to database")
+console.log("Connected to database")
 
 export const getCurrencyDetails: (currency: string) => Promise<Wallet | boolean> = async(currency: string) => {
     try {
@@ -16,7 +15,7 @@ export const getCurrencyDetails: (currency: string) => Promise<Wallet | boolean>
         const result = await collection.findOne({currency})
         return result as unknown as Wallet
     } catch(err: any){
-        await logtail.error(err.toString())
+        console.error(err.toString())
         return false
     }
 }
@@ -27,7 +26,7 @@ export const addCurrencyDetails = async (data: Wallet) => {
         await collection.insertOne(data)
         return true
     } catch(err: any){
-        await logtail.error(err.toString())
+        console.error(err.toString())
         return false
     }
 }
@@ -38,7 +37,7 @@ export const addWebhookSubscriptionDetails = async (data: SubscriptionDetails) =
         await collection.insertOne(data)
         return true
     } catch(err: any){
-        await logtail.error(err.toString())
+        console.error(err.toString())
         return false
     }
 }
@@ -49,7 +48,7 @@ export const getWebhookSubscriptionDetails = async (accountId: string, subscript
         const result = await collection.findOne({accountId,subscriptionType})
         return result as unknown as SubscriptionDetails
     } catch(err: any){
-        await logtail.error(err.toString())
+        console.error(err.toString())
         return false
     }
 }
@@ -60,7 +59,7 @@ export const addPaymentCharge = async (data: PaymentSchema) => {
         await collection.insertOne(data)
         return true
     } catch(err: any){
-        await logtail.error(err.toString())
+        console.error(err.toString())
         return false
     }
 }
@@ -71,7 +70,7 @@ export const updateChargeStatus = async (address: string, status: string) => {
         await collection.updateOne({address}, {$set: {status}})
         return true
     } catch(err: any){
-        await logtail.error(err.toString())
+        console.error(err.toString())
         return false
     }
 }
@@ -82,7 +81,7 @@ export const updatePendingAmount = async (address: string, amount: string) => {
         await collection.updateOne({address}, {$set: {pendingAmount: amount}})
         return true
     } catch(err: any){
-        await logtail.error(err.toString())
+        console.error(err.toString())
         return false
     }
 }

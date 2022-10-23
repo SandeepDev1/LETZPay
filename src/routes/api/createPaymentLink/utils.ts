@@ -2,7 +2,6 @@ import type {CreatePayment, PaymentSchema} from "./models/dbModels";
 import { STATUS} from "./models/paymentModels";
 import { uuid as uuidv4 } from 'uuidv4';
 import {addPaymentCharge} from "../../../lib/mongo/db";
-import { logtail } from "../../../lib/logs";
 import { LocalCurrency as localCurrency, Currency as currencies } from "../../../lib/tatum/models";
 
 export const verifyCreatePaymentRequest = (data: Object) => {
@@ -75,7 +74,7 @@ export const getCryptoPrice = async (crypto: string, localCurrency: string) => {
     try {
         const res = await fetch(`https://api.coinbase.com/v2/prices/${crypto}-${localCurrency}/spot`)
         const text = await res.text()
-        await logtail.info(text)
+        console.log(text)
         if(res.status == 200){
             const json = JSON.parse(text)
             return parseFloat(json.data.amount)
@@ -102,7 +101,7 @@ export const localCurrencyToCrypto = async (amount: string, localCurrency: strin
 export const createCharge = async (data: CreatePayment, depositAddress: string, derivationKey: number | undefined, cryptoAmount: number, fees: string | {fees: string, gasPrice: string, gasLimit: string}) => {
     try {
         const uid = uuidv4().toString()
-        await logtail.info(uid)
+        console.log(uid)
 
         const payment: PaymentSchema = {
             chargeId: uid,
@@ -133,7 +132,7 @@ export const createCharge = async (data: CreatePayment, depositAddress: string, 
 
         return payment
     } catch(err: any){
-        await logtail.error(err)
+        console.error(err)
         return false
     }
 

@@ -10,18 +10,15 @@ import {STATUS} from "../createPaymentLink/models/paymentModels";
 import {isLedger} from "../createPaymentLink/models/withdrawModel";
 import {withdrawEstimate, withdrawLedger} from "./components/withdraw";
 import {sendWebhook} from "./components/webhook";
-import { logtail } from "../../../lib/logs";
 
-/** @type {import('./$types').RequestHandler} */
-export async function POST(request: RequestEvent) {
-    const data: SubscriptionModel = await request.request.json()
-    await logtail.info(JSON.stringify(data))
+const handleWebhook = async (data: SubscriptionModel) => {
+    console.log(JSON.stringify(data))
     if(data.subscriptionType === "ACCOUNT_PENDING_BLOCKCHAIN_TRANSACTION"){
         await updateChargeStatus(data.to,STATUS.PENDING)
     } else if(data.subscriptionType === "ACCOUNT_INCOMING_BLOCKCHAIN_TRANSACTION"){
         const result = await getChargeDetailsFromAddress(data.to)
         if(result && result.totalAmount){
-            await logtail.info(JSON.stringify(result))
+            console.log(JSON.stringify(result))
             let chargeAmount: number
             const userAmountPaid = parseFloat(data.amount)
             if(result.pendingAmount){
@@ -29,14 +26,14 @@ export async function POST(request: RequestEvent) {
             } else {
                 chargeAmount = parseFloat(result.totalAmount)
             }
-            await logtail.info(userAmountPaid.toString())
-            await logtail.info(chargeAmount.toString())
+            console.log(userAmountPaid.toString())
+            console.log(chargeAmount.toString())
             if(userAmountPaid >= chargeAmount){
                 const wallet = await getCurrencyDetails(result.currency)
                 if(typeof(wallet) == "boolean"){
                     return new Response("OK", {status: 200})
                 }
-                await logtail.info(JSON.stringify(wallet))
+                console.log(JSON.stringify(wallet))
                 let txn: string | false | undefined
                 if(isLedger(result.currency)){
                     if(!result.fees){
@@ -51,7 +48,7 @@ export async function POST(request: RequestEvent) {
                     txn = await withdrawEstimate({address: result.merchantAddress,senderAccountId: wallet.accountId, amount: result.amount, mnemonic: wallet.mnemonic, derivationKey: result.derivationKey,gasPrice: result.gasPrice, gasLimit: result.gasLimit}, result.currency)
                 }
                 if(typeof(txn) == "string"){
-                    await logtail.info(txn)
+                    console.log(txn)
                     await updateChargeStatus(data.to,STATUS.COMPLETED)
                     await sendWebhook(result.webhookUrl,result.chargeId,result.amount,result.currency,txn,result.metadata)
                 } else {
@@ -74,5 +71,11 @@ export async function POST(request: RequestEvent) {
             }
         }
     }
+}
+
+/** @type {import('./$types').RequestHandler} */
+export async function POST(request: RequestEvent) {
+    const data: SubscriptionModel = await request.request.json()
+    handleWebhook(data)
     return new Response("OK", {status: 200})
 }

@@ -1,7 +1,6 @@
 import fetch from "node-fetch";
 import type { ethFees, ledgerFees, maticFees} from "../models/feeModels";
 import {getCryptoPrice} from "../utils";
-import { logtail } from "../../../../lib/logs";
 
 export const estimateEthFees = async (from: string, to: string, amount: string) => {
     try {
@@ -21,7 +20,7 @@ export const estimateEthFees = async (from: string, to: string, amount: string) 
         return json as ethFees
     } catch(err){
         // @ts-ignore
-        await logtail.error(err)
+        console.error(err)
         return false
     }
 }
@@ -44,7 +43,7 @@ export const estimateMaticFees = async (from: string, to: string, amount: string
         return json as maticFees
     } catch(err){
         // @ts-ignore
-        await logtail.error(err)
+        console.error(err)
         return false
     }
 }
@@ -69,11 +68,11 @@ export const estimateLedgerFees = async (senderAccountId: string, toAddress: str
         );
 
         const data = await res.json();
-        await logtail.info(JSON.stringify(data))
+        console.log(JSON.stringify(data))
         return data as ledgerFees
     } catch(err){
         // @ts-ignore
-        await logtail.error(err)
+        console.error(err)
         return false
     }
 }

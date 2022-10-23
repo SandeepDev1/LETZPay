@@ -1,5 +1,3 @@
-import { logtail } from "../../../../lib/logs";
-
 export const sendWebhook = async (url: string, chargeId: string, amount: string, currency: string, txn: string, metadata: string) => {
     try {
         const res = await fetch(url, {
@@ -16,7 +14,7 @@ export const sendWebhook = async (url: string, chargeId: string, amount: string,
             })
         })
     } catch(err: any){
-        await logtail.error(err)
+        console.error(err)
     }
 
 }

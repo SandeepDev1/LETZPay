@@ -1,5 +1,4 @@
 import { addWebhookSubscriptionDetails, getWebhookSubscriptionDetails } from "../mongo/db";
-import { logtail } from "../logs";
 import { generateWallet } from "./wallet";
 import fetch from "node-fetch";
 import type { Account, Address } from "./models";
@@ -25,10 +24,10 @@ export const generateAccount = async (currency: string, xpub: string) => {
     })
 
     const json = await res.json()
-    await logtail.info(JSON.stringify(json))
+    console.log(JSON.stringify(json))
     return json as unknown as Account
   } catch(err: any){
-    await logtail.error(err)
+    console.error(err)
     return false
   }
 }
@@ -47,7 +46,7 @@ const createNewSubscription = async (data: CreateSubscription) => {
     const json = await res.json()
     return json as unknown as {id: string}
   } catch(err: any) {
-    await logtail.error(err)
+    console.error(err)
     return false
   }
 }
@@ -84,7 +83,7 @@ export const createSubscription = async (accountId: string, url: string) => {
 
     return true
   } catch(err: any){
-    await logtail.error(err.toString())
+    console.error(err.toString())
     return false
   }
 }
@@ -101,10 +100,10 @@ export const generateDepositAddress = async (accountId: string) => {
 
     let json = await res.json()
     const address = json as unknown as Address
-    await logtail.info(JSON.stringify(address))
+    console.log(JSON.stringify(address))
     return {address: address.address, derivationKey: address.derivationKey}
   } catch(err: any){
-    await logtail.error(err.toString())
+    console.error(err.toString())
     return false
   }
 }

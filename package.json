@@ -41,6 +41,7 @@
 		"@types/node": "^18.11.3",
 		"bip39": "^3.0.4",
 		"bitcoinjs-lib": "^6.0.2",
+		"dotenv": "^16.0.3",
 		"ethereumjs-wallet": "^0.6.5",
 		"hdkey": "^2.0.1",
 		"mongodb": "^4.10.0",
