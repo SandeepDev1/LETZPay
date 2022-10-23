@@ -81,8 +81,6 @@ export const calculateFees = async (accountId: string, currency: string, xpub: s
     let amountFloat = 0
     let amountInt = 0
     let gwei = 0
-    let price: number | boolean = 0
-    let usdFees = 0
     switch (currency) {
         case "BTC":
             const btcFees = await estimateLedgerFees(accountId,merchantAddress,amount,xpub)
@@ -138,13 +136,18 @@ export const calculateFees = async (accountId: string, currency: string, xpub: s
             amountInt = amountFloat * 100000000
             amount = String(amountInt)
             const ethFees = await estimateEthFees(fromAddress,merchantAddress,amount)
-            if(!ethFees){
+            if(!ethFees || ethFees.gasPrice === "null"){
                 return false
             }
 
+            console.log(ethFees)
+
             gwei = parseFloat(ethFees.gasPrice) / parseFloat("1000000000")
+            console.log(gwei)
             const ethPriceInGwei = gwei * parseFloat(ethFees.gasLimit)
+            console.log(ethPriceInGwei)
             const ethAmount = (ethPriceInGwei / 1000000000).toFixed(8)
+            console.log(ethAmount)
 
             return {
                 fees: ethAmount,
@@ -157,7 +160,7 @@ export const calculateFees = async (accountId: string, currency: string, xpub: s
             amountInt = amountFloat * 100000000
             amount = String(amountInt)
             const maticFees = await estimateMaticFees(fromAddress,merchantAddress,amount)
-            if(!maticFees){
+            if(!maticFees || maticFees.gasPrice === "null"){
                 return false
             }
 
