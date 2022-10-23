@@ -145,14 +145,9 @@ export const calculateFees = async (accountId: string, currency: string, xpub: s
             gwei = parseFloat(ethFees.gasPrice) / parseFloat("100000000")
             const ethPriceInGwei = gwei * parseFloat(ethFees.gasLimit)
             const ethAmount = (ethPriceInGwei / 1000000000).toFixed(8)
-            price = await getCryptoPrice("ETH", "USD")
-            if(!price){
-                return false
-            }
-            usdFees = (parseFloat(ethAmount) * price)
 
             return {
-                fees: usdFees.toFixed(8),
+                fees: ethAmount,
                 gasLimit: ethFees.gasLimit,
                 gasPrice: ethFees.gasPrice
             }
@@ -169,13 +164,8 @@ export const calculateFees = async (accountId: string, currency: string, xpub: s
             gwei = parseFloat(maticFees.gasPrice) / parseFloat("100000000")
             const maticPriceInGwei = gwei * parseFloat(maticFees.gasLimit)
             const maticAmount = (maticPriceInGwei / 1000000000).toFixed(8)
-            price = await getCryptoPrice("MATIC", "USD")
-            if(!price){
-                return false
-            }
-            usdFees = (parseFloat(maticAmount) * price)
             return {
-                fees: usdFees.toFixed(8),
+                fees: maticAmount,
                 gasLimit: maticFees.gasLimit,
                 gasPrice: maticFees.gasPrice
             }
