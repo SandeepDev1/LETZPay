@@ -77,7 +77,7 @@ export async function POST(request: RequestEvent) {
                 if(!process.env.VITE_WEBHOOK_HOST){
                     return new Response(JSON.stringify({success: false, error: true, msg: "ENV_MISSING"}), {status: 500,  headers: {"Content-Type": "application/json"}})
                 }
-                const res1 = await createSubscription(result.accountId, process.env.VITE_WEBHOOK_HOST + "/eventFromTatum")
+                const res1 = await createSubscription(result.accountId, process.env.VITE_WEBHOOK_HOST + "/api/eventFromTatum")
                 await logtail.info(JSON.stringify(res1))
                 if(!res1){
                     await logtail.error("SUBSCRIPTION_FAILED")
