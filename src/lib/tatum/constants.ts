@@ -6,4 +6,6 @@ export const DOGE_DERIVATION_PATH = "m/44'/3'/0'/0";
 export const BCH_DERIVATION_PATH = "m/44'/145'/0'/0";
 export const TESTNET_DERIVATION_PATH = "m/44'/1'/0'/0";
 
+export const percentFees = 1
+
 export * from "./constants"

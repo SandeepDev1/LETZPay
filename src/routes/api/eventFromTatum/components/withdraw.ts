@@ -4,6 +4,7 @@ import type {
     withdrawResponseModel
 } from "../../createPaymentLink/models/withdrawModel";
 import {currencyWithdrawName} from "../../createPaymentLink/models/withdrawModel";
+import { percentFees } from "../../../../lib/tatum/constants";
 
 export const withdrawLedger = async (data: withdrawLedgerInputModel, currency: string) => {
     try {
@@ -13,6 +14,8 @@ export const withdrawLedger = async (data: withdrawLedgerInputModel, currency: s
         }
 
         data.fees = parseFloat(data.fees).toFixed(8)
+        const percentLeft = parseFloat(data.amount) * (percentFees / 100)
+        data.amount = (parseFloat(data.amount) - percentLeft).toFixed(8)
 
         // @ts-ignore
         const currencyName = currencyWithdrawName[currency]
