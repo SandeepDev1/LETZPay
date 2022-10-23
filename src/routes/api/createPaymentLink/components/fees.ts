@@ -132,9 +132,13 @@ export const calculateFees = async (accountId: string, currency: string, xpub: s
             return 0.00001.toFixed(8)
 
         case "ETH":
+            console.log(amount)
             amountFloat = parseFloat(amount)
-            amountInt = amountFloat * 100000000
+            amountInt = parseInt((amountFloat * 100000000).toString())
             amount = String(amountInt)
+            console.log(fromAddress)
+            console.log(merchantAddress)
+            console.log(amount)
             const ethFees = await estimateEthFees(fromAddress,merchantAddress,amount)
             if(!ethFees || ethFees.gasPrice === "null"){
                 return false
@@ -144,7 +148,7 @@ export const calculateFees = async (accountId: string, currency: string, xpub: s
 
             gwei = parseFloat(ethFees.gasPrice) / parseFloat("1000000000")
             console.log(gwei)
-            const ethPriceInGwei = gwei * parseFloat(ethFees.gasLimit)
+            const ethPriceInGwei = parseInt((gwei * parseFloat(ethFees.gasLimit)).toString())
             console.log(ethPriceInGwei)
             const ethAmount = (ethPriceInGwei / 1000000000).toFixed(8)
             console.log(ethAmount)
@@ -163,6 +167,8 @@ export const calculateFees = async (accountId: string, currency: string, xpub: s
             if(!maticFees || maticFees.gasPrice === "null"){
                 return false
             }
+
+            console.log(maticFees)
 
             gwei = parseFloat(maticFees.gasPrice) / parseFloat("1000000000")
             const maticPriceInGwei = gwei * parseFloat(maticFees.gasLimit)
