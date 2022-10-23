@@ -72,6 +72,18 @@ export const withdrawEstimate = async (data: withdrawEstimateInputModel, currenc
             return false
         }
 
+        console.log(
+          {
+              "senderAccountId": data.senderAccountId,
+              "address": data.address,
+              "amount": data.amount,
+              "mnemonic": data.mnemonic,
+              "gasLimit": data.gasLimit,
+              "gasPrice": data.gasPrice,
+              "index": data.derivationKey,
+          }
+        )
+
         // @ts-ignore
         const currencyName = currencyWithdrawName[currency]
         console.log(currencyName)
