@@ -96,3 +96,14 @@ export const getChargeDetailsFromAddress = async (address: string) => {
         return false
     }
 }
+
+export const getChargeDetailsFromId = async (id: string) => {
+    try {
+        const collection = db.collection("charges")
+        const result = await collection.findOne({chargeId: id})
+        return result as unknown as PaymentSchema
+    } catch(err){
+        console.error(err)
+        return false
+    }
+}
