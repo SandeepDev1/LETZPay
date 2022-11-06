@@ -25,7 +25,7 @@ export async function POST(request: RequestEvent) {
             console.log(JSON.stringify(result))
             if(!result){
                 try {
-                    const generatedWallet = await generateWalletFromCurrency(paymentData.currency as keyof typeof String, true)
+                    const generatedWallet = await generateWalletFromCurrency(paymentData.currency as keyof typeof String, typeof(process.env.VITE_IS_TESTNET) === "boolean" ? process.env.VITE_IS_TESTNET : true)
                     console.log(JSON.stringify(generatedWallet))
                     if ("xpub" in generatedWallet && "mnemonic" in generatedWallet) {
                         // @ts-ignore

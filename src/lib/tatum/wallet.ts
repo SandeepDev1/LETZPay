@@ -76,10 +76,10 @@ export const generateWallet = (currency: string, testnet: boolean) => {
       return generateLtcWallet(testnet, mnem);
     case Currency.BCH:
       return generateBchWallet(testnet, mnem);
-    case Currency.ETH:
-      return generateEthWallet(testnet, mnem);
-    case Currency.MATIC:
-      return generatePolygonWallet(testnet, mnem);
+    // case Currency.ETH:
+    //   return generateEthWallet(testnet, mnem);
+    // case Currency.MATIC:
+    //   return generatePolygonWallet(testnet, mnem);
     default:
       throw new Error('Unsupported blockchain.');
   }
