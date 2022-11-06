@@ -12,7 +12,8 @@ export async function GET(request: RequestEvent) {
   if(!charge) {
     return new Response(JSON.stringify({success: false, error: true, msg: "SOMETHING_WENT_WRONG"}), {status: 500, headers: {"Content-Type": "application/json"}})
   }
-
+  //@ts-ignore
+  delete charge._id
   delete charge.derivationKey
   //@ts-ignore
   delete charge.webhookUrl
