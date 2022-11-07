@@ -1,4 +1,4 @@
-<section class="w-[92%]">
+<section id="features" class="w-[92%]">
 	<div class="f1 flex items-center md:flex-row flex-col py-14 px-5 pt-10 pb-5 md:py-20">
         
 		<div class="h-[360px] min-w-[260px]  rounded-t-3xl md:rounded-r-none md:rounded-l-3xl w-[100%] bg-white flex justify-center items-center basis-1/4"><img src="/f2.webp" class="fs p-5 pt-0  h-[250px]" alt="f1"  /></div>
@@ -53,11 +53,4 @@
     -webkit-filter: drop-shadow(5px 5px 5px #222);
   filter: drop-shadow(5px 5px 5px rgb(196, 196, 196));
 }
-/* .f42:hover{
-    transition: all 0.2s linear;
-}
-.f4:hover .f42{
-    background: linear-gradient(180deg, #fbfbfb 0%, #fff1f7 100%, #7b7bbe 100%);
-    
-} */
 </style>

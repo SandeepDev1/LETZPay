@@ -5,10 +5,9 @@
             <p class=" mt-2 pl-2 font-normal text-gray-800 text-lg lg:h-[80px] ">You are just one click away to get started </p>
             <div class=" mt-8 md:block">
                 <a
-                    href="/#/"
+                    href="#"
                     class="  text-xs text-right  text-gray-700  font-bold hover:bg-gray-700 hover:text-white outline outline-1 rounded-full  p-4"
-                    >GENERATE INVOICE</a
-                >
+                    >GENERATE INVOICE</a>
             </div>
         </div>
         <div class="docs  w-[100%] p-2 my-10 border-y-2 lg:px-4 lg:border-y-0 lg:border-x-2 lg:my-0">
@@ -16,7 +15,7 @@
             <p class=" mt-2 pl-2 font-normal text-gray-800 text-lg lg:h-[80px] ">We provide best in class documentation of how to setup and use</p>
             <div class=" mt-8 mb-8 lg:mb-0 md:block">
                 <a
-                    href="#/"
+                    href="/docs"
                     class="  text-xs text-right  text-gray-700  font-bold hover:bg-gray-700 hover:text-white outline outline-1 rounded-full p-4"
                     >VIEW DOCS</a
                 >
@@ -27,7 +26,7 @@
             <p class=" mt-2 pl-2 font-normal text-gray-800 text-lg lg:h-[80px] ">You can leave us a message and we will get to you as soon as possible</p>
             <div class=" mt-8  md:block">
                 <a
-                    href="#/"
+                    href="#"
                     class="  text-xs text-right  text-gray-700  font-bold hover:bg-gray-700 hover:text-white outline outline-1 rounded-full p-4"
                     >CONTACT US</a
                 >
@@ -37,12 +36,12 @@
     <div class="p-5 ">
         <h1 class="font-bold underline-offset-4 underline">Quick Links</h1>
         <div class="grid grid-cols-2 md:grid-cols-3 mt-4">
-            <a href="#/" class="  px-4 py-2 font-semibold text-zinc-500 hover:text-zinc-800">Home</a>
-            <a href="#/" class="  px-4 py-2 font-semibold text-zinc-500 hover:text-zinc-800">Features</a>
-            <a href="#/" class="  px-4 py-2 font-semibold text-zinc-500 hover:text-zinc-800">How To Use</a>
-            <a href="#/" class="  px-4 py-2 font-semibold text-zinc-500 hover:text-zinc-800">Docs</a>
-            <a href="#/" class="  px-4 py-2 font-semibold text-zinc-500 hover:text-zinc-800">Contact Us</a>
-            <a href="#/" class="  px-4 py-2 font-semibold text-zinc-500 hover:text-zinc-800">Generate Inovice</a>
+            <a href="#home" class="  px-4 py-2 font-semibold text-zinc-500 hover:text-zinc-800">Home</a>
+            <a href="#features" class="  px-4 py-2 font-semibold text-zinc-500 hover:text-zinc-800">Features</a>
+            <a href="#how_to_use" class="  px-4 py-2 font-semibold text-zinc-500 hover:text-zinc-800">How To Use</a>
+            <a href="/docs" class="  px-4 py-2 font-semibold text-zinc-500 hover:text-zinc-800">Docs</a>
+            <a href="#" class="  px-4 py-2 font-semibold text-zinc-500 hover:text-zinc-800">Contact Us</a>
+            <a href="#" class="  px-4 py-2 font-semibold text-zinc-500 hover:text-zinc-800">Generate Inovice</a>
         </div>
 
     </div>

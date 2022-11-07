@@ -1,8 +1,6 @@
 <script>
   import Features from "$lib/components/features.svelte";
     import Nav from "$lib/components/nav.svelte";
-    import { onMount } from "svelte";
-    import Btn from "$lib/components/btn.svelte";
     import Hero from "$lib/components/hero.svelte";
     import Docon from "$lib/components/footer.svelte";
     import Hwtouse from "$lib/components/hwtouse.svelte";
